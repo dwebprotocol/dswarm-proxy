@@ -1,11 +1,11 @@
 # hyperswarm-proxy
-Proxy p2p connections using a duplex stream and Hyperswarm
+Proxy p2p connections using a duplex stream and dSwarm
 
 ## How it works
 
-- A server initializes an instance of [hyperswarm](https://github.com/hyperswarm/hyperswarm)
+- A server initializes an instance of [dSwarm](https://github.com/dwebprotocol/dswarm)
 - A client opens a connection to the server (use any duplex stream)
-- Client instance behaves the same as hyperswarm
+- Client instance behaves the same as dSwarm
 - The client asks to join "topics"
 - The server starts searching for peers and sends peer information to the client
 - The client chooses which peers to connect to (all of them by default)
@@ -15,16 +15,16 @@ Proxy p2p connections using a duplex stream and Hyperswarm
 ## Server
 
 ```js
-const HyperswarmProxyServer = require('hyperswarm-proxy/server')
+const DSwarmProxyServer = require('@dswarm/proxy/server')
 
-const server = new HyperswarmProxyServer({
-  // The bootstrap nodes to pass to hyperswarm (optional)
+const server = new DSwarmProxyServer({
+  // The bootstrap nodes to pass to dSwarm (optional)
   bootstrap,
 
   // Whether your server will be sort lived (ephemeral: true)
   ephemeral,
 
-  // Pass in an existing hyperswarm instance instead of creating a new one (optional)
+  // Pass in an existing dSwarm instance instead of creating a new one (optional)
   network,
 
   // Function that takes incoming connections to decide what to do with them
@@ -53,11 +53,11 @@ server.destroy(() => {
 ## Client
 
 ```js
-const HyperswarmProxyClient = require('hyperswarm-proxy/client')
+const DSwarmProxyClient = require('@dswarm/proxy/client')
 
 const somestream = getStreamForServer()
 
-const swarm = new HyperswarmProxyClient({
+const swarm = new DSwarmProxyClient({
   // Pass in the stream which connects to the server
   // If this isn't passed in, invoke `.reconnect(somestream)` to start connecting
   connection: somestream,
@@ -74,12 +74,12 @@ swarm.on('disconnected', () => {
   swarm.reconnect(getStreamForServer())
 })
 
-// Same as hyperswarm
+// Same as dSwarm
 swarm.on('connection', (connection, info) => {
 
   const stream = getSomeStream(info.topic)
   // Pipe the data from the connection into something to process it
-  // E.G. `hyperdrive.replicate()`
+  // E.G. `ddrive.replicate()`
   connection.pipe(stream).pipe(connection)
 })
 
