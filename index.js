@@ -4,7 +4,7 @@ const { SwarmEvent, EventType } = require('./messages')
 const ProxyStream = require('./proxystream')
 const pump = require('pump')
 
-module.exports = class HyperswarmProxyStream extends Duplex {
+module.exports = class DSwarmProxyStream extends Duplex {
   constructor (stream) {
     super({
       emitClose: true

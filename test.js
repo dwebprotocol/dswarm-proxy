@@ -1,24 +1,24 @@
 const test = require('tape')
 const crypto = require('crypto')
 const DuplexPair = require('duplexpair')
-const hyperswarm = require('@hyperswarm/network')
-const hypercoreProtocol = require('hypercore-protocol')
-const hypercore = require('hypercore')
+const dswarm = require('@dswarm/network')
+const ddatabaseProtocol = require('@ddatabase/protocol')
+const ddatabase = require('ddatabase')
 const RAM = require('random-access-memory')
 const net = require('net')
 
-const HyperswarmProxyServer = require('./server')
-const HyperswarmProxyClient = require('./client')
+const DSwarmProxyServer = require('./server')
+const DSwarmProxyClient = require('./client')
 
 test('discover and make connections', (t) => {
   // Each test should use a different topic to avoid connecting to other machines running the test
-  const TEST_TOPIC = makeTopic('HYPERSWARM-PROXY-TEST' + Math.random())
+  const TEST_TOPIC = makeTopic('DSWARM-PROXY-TEST' + Math.random())
   const TEST_MESSAGE = 'Hello World'
 
   t.plan(4)
 
-  const server = new HyperswarmProxyServer()
-  const network = hyperswarm({
+  const server = new DSwarmProxyServer()
+  const network = dswarm({
     socket: (socket) => {
       t.pass('got connection to peer')
       socket.on('data', () => {
@@ -50,7 +50,7 @@ test('discover and make connections', (t) => {
 
   server.handleStream(serverSocket)
 
-  const client = new HyperswarmProxyClient({
+  const client = new DSwarmProxyClient({
     connection: clientSocket
   })
 
@@ -70,9 +70,9 @@ test('discover and make connections', (t) => {
 })
 
 test('handle incoming connections', (t) => {
-  const core = hypercore(RAM)
+  const core = ddatabase(RAM)
 
-  const server = new HyperswarmProxyServer({
+  const server = new DSwarmProxyServer({
     handleIncoming
   })
   const fakeServer = net.createServer()
@@ -98,7 +98,7 @@ test('handle incoming connections', (t) => {
 
   function handleIncoming (socket) {
     t.pass('got incoming connection')
-    const stream = hypercoreProtocol({
+    const stream = ddatabaseProtocol({
       live: true,
       encrypt: true
     })
@@ -119,7 +119,7 @@ test('handle incoming connections', (t) => {
   const { socket1: serverSocket, socket2: clientSocket } = new DuplexPair()
   server.handleStream(serverSocket)
 
-  const client = new HyperswarmProxyClient({
+  const client = new DSwarmProxyClient({
     connection: clientSocket
   })
 

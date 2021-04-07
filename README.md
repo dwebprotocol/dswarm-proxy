@@ -1,4 +1,4 @@
-# hyperswarm-proxy
+# dswarm-proxy
 Proxy p2p connections using a duplex stream and dSwarm
 
 ## How it works
