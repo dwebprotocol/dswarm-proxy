@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "duplexpair": "^1.0.1",
-    "ddatabase": "^10.0.0",
-    "@ddatabase/protocol": "^1.0.0",
+    "ddatabase": "git://github.com/dwebprotocol/ddatabase.git#fd7ae331acc27e93108f6df4a7b6e51a337e9e9b",
+    "@ddatabase/protocol": "git://github.com/dwebprotocol/ddatabase-protocol.git#85e73e8d4cdaf0a3f708fec3156b8eb1b314e3f5",
     "protocol-buffers": "^4.1.0",
     "random-access-memory": "^3.1.1",
     "tape": "^4.11.0"
